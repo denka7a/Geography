@@ -18,9 +18,16 @@ namespace Geography
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<GeographyUser>(options => 
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<GeographyDbContext>();
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(); 
 
             var app = builder.Build();
 

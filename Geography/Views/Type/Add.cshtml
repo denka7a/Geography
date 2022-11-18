@@ -1,0 +1,15 @@
+﻿@model TypeViewModel
+@{
+    ViewData["Title"] = "Add Nature Type";
+}
+<div class="offset-3 col-6">
+    <form method="post">
+        <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+        <div class="form-group">
+            <label asp-for="Type"></label>
+            <input asp-for="Type" class="form-control" placeholder="Mountain, River..">
+            <span asp-validation-for="Type" class="small text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

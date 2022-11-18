@@ -1,6 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿@using Geography.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<GeographyUser> SignInManager
+@inject UserManager<GeographyUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

@@ -1,6 +1,7 @@
 ﻿using Geography.Data.Data;
 using Geography.Data.Data.Models;
 using Geography.Models.Nature;
+using Geography.Models.Type;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -13,6 +14,19 @@ namespace Geography.Controllers
         public NatureController(GeographyDbContext context)
         {
             this.context = context;
+        }
+
+        public IActionResult All()
+        {
+            var objects = this.context.NatureObjects.Select(x => new NatureViewModel
+            {
+                Name = x.Name,
+                NatureType = x.NatureType.Type,
+                URL = x.URL,
+                Information = x.Information
+            }).ToList();
+
+            return View(objects);
         }
 
         public IActionResult Add()

@@ -1,0 +1,14 @@
+﻿@model List<TypeViewModel>
+
+<h1>
+    <center>There are all types for objects!</center>
+</h1>
+
+<h3>
+    <center>
+        @foreach (var type in Model)
+        {
+            <h3>@type.Type</h3>
+        }
+    </center>
+</h3>

@@ -13,6 +13,17 @@ namespace Geography.Controllers
         {
             this.context = context;
         }
+
+        public IActionResult All()
+        {
+            var types = this.context.NatureTypes.Select(x => new TypeViewModel
+            {
+                Type = x.Type,
+            }).ToList();
+
+            return View(types);
+        }
+
         [Authorize]
         public IActionResult Add()
         {
@@ -27,9 +38,15 @@ namespace Geography.Controllers
                 return View(typeModel);
             }
 
-            var name = this.User.Identity.Name;
+            var isExistType = this.context.NatureTypes.FirstOrDefault(x => x.Type == typeModel.Type);
 
-            var user = this.context.Users.FirstOrDefault(x => x.UserName == name);
+            if (isExistType != null)
+            {
+                return View(typeModel);
+            }
+
+            var name = this.User.Identity.Name;
+            var user = this.context.Users.First(x => x.UserName == name);
 
             var type = new NatureType()
             {

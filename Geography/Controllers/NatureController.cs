@@ -4,6 +4,7 @@ using Geography.Models.Nature;
 using Geography.Models.Type;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Xml.Linq;
 
 namespace Geography.Controllers
 {
@@ -20,6 +21,7 @@ namespace Geography.Controllers
         {
             var objects = this.context.NatureObjects.Select(x => new NatureViewModel
             {
+                Id = x.Id,
                 Name = x.Name,
                 NatureType = x.NatureType.Type,
                 URL = x.URL,
@@ -61,6 +63,66 @@ namespace Geography.Controllers
             this.context.SaveChanges();
 
             return RedirectToAction(nameof(Add));
+        }
+        public IActionResult Edit(int id)
+        {
+            var natureObj = context.NatureObjects.FirstOrDefault(x => x.Id == id);
+            
+            if (natureObj == null)
+            {
+                return NotFound();
+            }
+
+            var natureType = context.NatureTypes.FirstOrDefault(x => x.Id == natureObj.NatureTypeId);
+
+            return View( new NatureViewModel
+            {
+                Name = natureObj.Name,
+                URL = natureObj.URL,
+                Information = natureObj.Information,
+                NatureType = natureObj.NatureType.Type
+            });
+        }
+        [HttpPost]
+        public IActionResult Edit(int id, string url, string information, string natureType)
+        {
+            var natureObject = context.NatureObjects.Find(id);
+            var natureTypeExist = context.NatureTypes.FirstOrDefault(x => x.Type == natureType);
+
+            if (natureTypeExist == null)
+            {
+                return RedirectToAction(nameof(Edit));
+            }
+
+            natureObject.Id = id;
+            natureObject.Information = information;
+            natureObject.URL = url;
+            natureObject.NatureType = natureTypeExist;
+
+            if (natureObject == null)
+            {
+                return RedirectToAction(nameof(Edit));
+            }
+
+            this.context.Update(natureObject);
+            this.context.SaveChanges();
+
+            return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var natureObject = context.NatureObjects.Find(id);
+
+            if (natureObject == null)
+            {
+                return NotFound();
+            }
+
+            context.NatureObjects.Remove(natureObject);
+            context.SaveChanges();
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Geography.Data.Models
         public string Name { get; set; }
         public string URL { get; set; }
         public decimal Price { get; set; }
+        public string UserId { get; set; }
         public ICollection<UserSouvenir> UserSouvenirs { get; set; }
     }
 }

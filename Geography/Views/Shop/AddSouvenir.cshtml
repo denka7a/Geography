@@ -1,0 +1,26 @@
+﻿@model SouvenirViewModel
+@{
+    ViewData["Title"] = "Add souvenir";
+}
+<div class="offset-3 col-6">
+    <form method="post">
+        <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="Object name">
+            <span asp-validation-for="Name" class="small text-danger"></span>
+        </div>
+      
+        <div class="form-group">
+            <label asp-for="URL"></label>
+            <input asp-for="URL" class="form-control">
+            <span asp-validation-for="URL" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" placeholder="Mountain, River..">
+            <span asp-validation-for="Price" class="small text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

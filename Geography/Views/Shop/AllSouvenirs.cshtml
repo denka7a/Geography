@@ -1,0 +1,8 @@
+﻿@model List<SouvenirViewModel>
+
+@foreach (var obj in Model)
+{
+    <h1>@obj.Name</h1>
+    <img src="@obj.URL" style="overflow: hidden; position: relative; width:200px; height:200px;" />
+    <h3>@obj.Price</h3>
+}

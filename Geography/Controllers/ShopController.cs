@@ -18,6 +18,7 @@ namespace Geography.Controllers
         {
             var souvenirs = context.Souvenirs.Select(x => new SouvenirViewModel
             {
+                Id = x.Id,
                 Name = x.Name,
                 URL = x.URL,
                 Price = x.Price
@@ -33,7 +34,6 @@ namespace Geography.Controllers
         [HttpPost]
         public IActionResult AddSouvenir(SouvenirViewModel model)
         {
-
             var name = this.User.Identity.Name;
             var user = this.context.Users.First(x => x.UserName == name);
 
@@ -41,7 +41,6 @@ namespace Geography.Controllers
             {
                 return View(model);
             }
-
 
             var souvenir = new Souvenir()
             {
@@ -54,6 +53,32 @@ namespace Geography.Controllers
             this.context.Souvenirs.Add(souvenir);
             this.context.SaveChanges();
 
+            return RedirectToAction(nameof(AllSouvenirs));
+        }
+
+        public IActionResult Buy(int id)
+        {
+            var souvenir = context.Souvenirs.Find(id);
+            var souvenirPrice = souvenir.Price;
+
+            if (souvenir == null)
+            {
+                return BadRequest("Not Found");
+            }
+
+            var name = this.User.Identity.Name;
+            var user = this.context.Users.First(x => x.UserName == name);
+
+            var userSouvenir = new UserSouvenir
+            {
+                UserId = user.Id,
+                SouvenirId = souvenir.Id
+            };
+
+            user.UserSouvenirs.Add(userSouvenir);
+
+            user.Balance -= souvenirPrice;
+            context.SaveChanges();
             return RedirectToAction(nameof(AllSouvenirs));
         }
     }

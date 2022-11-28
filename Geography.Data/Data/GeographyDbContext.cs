@@ -24,6 +24,17 @@ namespace Geography.Data.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            builder.Entity<UserSouvenir>().HasOne(x => x.GeographyUser)
+                .WithMany(y => y.UserSouvenirs)
+                .HasForeignKey(g => g.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserSouvenir>().HasOne(x => x.Souvenir)
+                .WithMany(y => y.UserSouvenirs)
+                .HasForeignKey(g => g.SouvenirId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<UserSouvenir>().HasKey(x => new { x.UserId, x.SouvenirId });
 
             base.OnModelCreating(builder);

@@ -1,5 +1,6 @@
 ﻿using Geography.Data.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Geography.Data.Models
 {

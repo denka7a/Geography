@@ -62,7 +62,7 @@ namespace Geography.Controllers
             this.context.Add(natureObject);
             this.context.SaveChanges();
 
-            return RedirectToAction(nameof(Add));
+            return RedirectToAction(nameof(All));
         }
         public IActionResult Edit(int id)
         {
@@ -109,7 +109,7 @@ namespace Geography.Controllers
 
             return RedirectToAction(nameof(All));
         }
-
+      
         public IActionResult Delete(int id)
         {
             var natureObject = context.NatureObjects.Find(id);

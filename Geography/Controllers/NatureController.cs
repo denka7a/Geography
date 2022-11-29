@@ -2,6 +2,7 @@
 using Geography.Data.Data.Models;
 using Geography.Models.Nature;
 using Geography.Models.Type;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Xml.Linq;
@@ -30,12 +31,13 @@ namespace Geography.Controllers
 
             return View(objects);
         }
-
+        [Authorize]
         public IActionResult Add()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(NatureViewModel natureModel)
         {
@@ -64,6 +66,8 @@ namespace Geography.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [Authorize]
         public IActionResult Edit(int id)
         {
             var natureObj = context.NatureObjects.FirstOrDefault(x => x.Id == id);
@@ -83,6 +87,8 @@ namespace Geography.Controllers
                 NatureType = natureObj.NatureType.Type
             });
         }
+
+        [Authorize]
         [HttpPost]
         public IActionResult Edit(int id, string url, string information, string natureType)
         {
@@ -109,7 +115,8 @@ namespace Geography.Controllers
 
             return RedirectToAction(nameof(All));
         }
-      
+
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var natureObject = context.NatureObjects.Find(id);

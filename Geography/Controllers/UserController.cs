@@ -1,5 +1,6 @@
 ﻿using Geography.Data.Data;
 using Geography.Models.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 
@@ -13,6 +14,8 @@ namespace Geography.Controllers
         {
             this.context = context;
         }
+
+        [Authorize]
         [HttpGet]
         public IActionResult AddBalance()
         {
@@ -26,6 +29,8 @@ namespace Geography.Controllers
 
             return View(userModel);
         }
+
+        [Authorize]
         [HttpPost]
         public IActionResult AddBalance(decimal balance)
         {

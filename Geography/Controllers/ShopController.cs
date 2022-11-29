@@ -1,6 +1,7 @@
 ﻿using Geography.Data.Data;
 using Geography.Data.Models;
 using Geography.Models.Shop;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Geography.Controllers
@@ -27,10 +28,13 @@ namespace Geography.Controllers
             return View(souvenirs);
         }
 
+        [Authorize]
         public IActionResult AddSouvenir()
         {
             return View();
         }
+
+        [Authorize]
         [HttpPost]
         public IActionResult AddSouvenir(SouvenirViewModel model)
         {
@@ -56,6 +60,7 @@ namespace Geography.Controllers
             return RedirectToAction(nameof(AllSouvenirs));
         }
 
+        [Authorize]
         public IActionResult Buy(int id)
         {
             var souvenir = context.Souvenirs.Find(id);

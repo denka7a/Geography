@@ -65,9 +65,13 @@ namespace Geography.Controllers
             {
                 return BadRequest("Not Found");
             }
-
             var name = this.User.Identity.Name;
             var user = this.context.Users.First(x => x.UserName == name);
+
+            if (souvenir.Price > user.Balance)
+            {
+                return BadRequest("No enought money");
+            }
 
             var userSouvenir = new UserSouvenir
             {

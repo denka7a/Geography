@@ -9,5 +9,6 @@ namespace Geography.Data.Models
         public decimal Balance { get; set; }
         public ICollection<NatureType> NatureTypes { get; set; }
         public ICollection<UserSouvenir> UserSouvenirs { get; set; }
+        public ICollection<Message> Messages { get; set; }
     }
 }

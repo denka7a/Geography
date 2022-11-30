@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 
 namespace Geography.Data.Data.Models
 {
-    public class NatureType
+    public class Message
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(30)]
-        public string Type { get; set; }
-        public string UserId { get; set; }
-        public GeographyUser User { get; set; }
-        public ICollection<NatureObject> NatureObjects { get; set; }
+        [MaxLength(40)]
+        public string Writer { get; set; }
+        [Required]
+        [MaxLength(300)]
+        public string Text { get; set; }
+        public string geographyUserId { get; set; }
+        public GeographyUser geographyUser { get; set; }
     }
 }

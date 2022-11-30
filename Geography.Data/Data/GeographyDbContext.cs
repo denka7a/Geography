@@ -21,6 +21,8 @@ namespace Geography.Data.Data
         public DbSet<UserSouvenir> UserSouvenirs { get; set; }
         public DbSet<NatureType> NatureTypes { get; set; }
         public DbSet<NatureObject> NatureObjects { get; set; }
+        public DbSet<Message> Message { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

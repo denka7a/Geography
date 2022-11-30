@@ -90,30 +90,34 @@ namespace Geography.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(int id, string url, string information, string natureType)
+        public IActionResult Edit(NatureViewModel natureModel)
         {
-            var natureObject = context.NatureObjects.Find(id);
-            var natureTypeExist = context.NatureTypes.FirstOrDefault(x => x.Type == natureType);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Edit));
+            }
+            var natureObject = context.NatureObjects.Find(natureModel.Id);
+            var natureTypeExist = context.NatureTypes.FirstOrDefault(x => x.Type == natureModel.NatureType);
 
             if (natureTypeExist == null)
             {
                 return RedirectToAction(nameof(Edit));
             }
 
-            natureObject.Id = id;
-            natureObject.Information = information;
-            natureObject.URL = url;
+            natureObject.Id = natureModel.Id;
+            natureObject.Information = natureModel.Information;
+            natureObject.URL = natureModel.URL;
             natureObject.NatureType = natureTypeExist;
 
             if (natureObject == null)
             {
                 return RedirectToAction(nameof(Edit));
             }
-
+             
             this.context.Update(natureObject);
             this.context.SaveChanges();
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Edit));
         }
 
         [Authorize]

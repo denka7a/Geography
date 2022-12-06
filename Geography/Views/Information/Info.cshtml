@@ -1,14 +1,29 @@
 ﻿@using Geography.Data.Data.Models
 @model MessageViewModel
 
-<h1>There are all messages from users:</h1>
+<div style="text-align:center;"><img src="https://keydifferences.com/wp-content/uploads/2016/09/data-vs-informaton.jpg"  style="overflow: hidden; position: relative; width:500px; height:300px;" /></div>
+
+<h3 class="bg">Тук ще намерите нужната информация за сайта, както и да напишете своите забележки или неща за подобрение</h3>
+
+<div style="text-align:center;"><img src="http://acrl.ala.org/techconnect/wp-content/uploads/2012/07/type.png?w=640" style="overflow: hidden; position: relative; width:600px; height:200px;" /></div>
+<h4 class="bg">Тип на обект (Types):</h4>
+<p class="bg">Тип(Type) има следните опции: Add - можете да добавите тип, като това е задължително, за да добавите след това географски обект. Можете да добавите тип само ако сте регистриран потребител, който е логнат в сайта. All - можете да видите всички регистрирани типове от потребителите.</p>
+
+<div style="text-align:center;"><img src="https://geachelonia.org/wp-content/uploads/2020/12/Img-2-4.jpg" style="overflow: hidden; position: relative; width:400px; height:250px;" /></div>
+<h4 class="bg">Природна забележителност(Nature)</h4>
+<p class="bg">Природните забележителности имат две опции: Add - можете да добавите природна забележителност, но първо трябва да добавите какъв тип е в (Type) те могат да бъдат различни като планини, рекир върхове и тн. За да добавяте географски обект, трябва да сте регистриран и логнат потребител. All - можете да видите географските забележителности, не е нужно да сте регистриран потребител.</p>
+
+<div style="text-align:center;"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/45/5e/16/getlstd-property-photo.jpg?w=1200&h=-1&s=1" style="overflow: hidden; position: relative; width:700px; height:450px;" /></div>
+<h4 class="bg">Магазин(Shop)</h4>
+<p class="bg">Този магазин има за цел продажба на сувенири. За да можете да добавите или купите сувенир е нужно да сте регистриран и логнат потребил и да имате достатъчно пари.</p>
+
+<h1 class="bg">Тук можете да пишете коментари за сайта:</h1>
 
 @foreach (var message in ViewData["messages"] as List<Message>)
 {
-    <h2>@message.Writer</h2>
-    <h4>@message.Text</h4>
+    <h4>@message.Writer</h4>
+    <p>@message.Text</p>
 }
-
 <form method="post">
     <div class="form-group">
         <label asp-for="Writer"></label>

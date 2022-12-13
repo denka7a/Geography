@@ -1,4 +1,5 @@
-﻿using Geography.Data.Data;
+﻿using Geography.Contracts;
+using Geography.Data.Data;
 using Geography.Data.Data.Models;
 using Geography.Models.Nature;
 using Geography.Models.Type;
@@ -11,23 +12,15 @@ namespace Geography.Controllers
 {
     public class NatureController : Controller
     {
-        private readonly GeographyDbContext context;
-
-        public NatureController(GeographyDbContext context)
+        private readonly INatureService service;
+        public NatureController(INatureService service)
         {
-            this.context = context;
+            this.service = service;
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var objects = this.context.NatureObjects.Select(x => new NatureViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                NatureType = x.NatureType.Type,
-                URL = x.URL,
-                Information = x.Information
-            }).ToList();
+            var objects = this.service.All();
 
             return View(objects);
         }
@@ -36,7 +29,6 @@ namespace Geography.Controllers
         {
             return View();
         }
-
         [Authorize]
         [HttpPost]
         public IActionResult Add(NatureViewModel natureModel)
@@ -46,23 +38,7 @@ namespace Geography.Controllers
                 return View(natureModel); 
             }
 
-            var natureType = this.context.NatureTypes.FirstOrDefault(x => x.Type.ToLower() == natureModel.NatureType.ToLower());
-
-            if (natureType == null)
-            {
-                return View(natureModel);
-            }
-
-            var natureObject = new NatureObject()
-            {
-                Name = natureModel.Name,
-                Information = natureModel.Information,
-                URL = natureModel.URL,
-                NatureType = natureType
-            };
-
-            this.context.Add(natureObject);
-            this.context.SaveChanges();
+            service.Add(natureModel);
 
             return RedirectToAction(nameof(All));
         }
@@ -70,21 +46,21 @@ namespace Geography.Controllers
         [Authorize]
         public IActionResult Edit(int id)
         {
-            var natureObj = context.NatureObjects.FirstOrDefault(x => x.Id == id);
+            var natureObj = service.natureById(id);
             
             if (natureObj == null)
             {
                 return NotFound();
             }
 
-            var natureType = context.NatureTypes.FirstOrDefault(x => x.Id == natureObj.NatureTypeId);
+            var natureType = service.typeByNature(natureObj.NatureType);
 
             return View( new NatureViewModel
             {
                 Name = natureObj.Name,
                 URL = natureObj.URL,
                 Information = natureObj.Information,
-                NatureType = natureObj.NatureType.Type
+                NatureType = natureType.Type
             });
         }
 
@@ -96,42 +72,33 @@ namespace Geography.Controllers
             {
                 return RedirectToAction(nameof(Edit));
             }
-            var natureObject = context.NatureObjects.Find(natureModel.Id);
-            var natureTypeExist = context.NatureTypes.FirstOrDefault(x => x.Type == natureModel.NatureType);
+
+            var natureObject = service.natureById(natureModel.Id);
+            var natureTypeExist = service.typeByNature(natureModel.NatureType);
 
             if (natureTypeExist == null)
             {
                 return RedirectToAction(nameof(Edit));
             }
 
-            natureObject.Id = natureModel.Id;
-            natureObject.Information = natureModel.Information;
-            natureObject.URL = natureModel.URL;
-            natureObject.NatureType = natureTypeExist;
-
             if (natureObject == null)
             {
                 return RedirectToAction(nameof(Edit));
             }
              
-            this.context.Update(natureObject);
-            this.context.SaveChanges();
-
-            return RedirectToAction(nameof(Edit));
+            var editedNature = service.Edit(natureModel);
+            return RedirectToAction(nameof(All));
         }
 
         [Authorize]
         public IActionResult Delete(int id)
         {
-            var natureObject = context.NatureObjects.Find(id);
-
-            if (natureObject == null)
+            if (service.natureById(id) == null)
             {
                 return NotFound();
             }
 
-            context.NatureObjects.Remove(natureObject);
-            context.SaveChanges();
+            service.Delete(id);
 
             return RedirectToAction(nameof(All));
         }

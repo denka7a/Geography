@@ -1,5 +1,6 @@
 ﻿@using Geography.Models.User
 @model UserViewModel
+
 <form method="post">
     <div style="text-align:center;"><img src="https://live.staticflickr.com/65535/17121925920_e2095f2df5_b.jpg" style="overflow: hidden; position: relative; width:600px; height:400px;" /></div>
     <h2>Username: @this.User.Identity.Name </h2>
@@ -13,3 +14,4 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </td>
 </form>
+<partial name="_ValidationScriptsPartial"/>

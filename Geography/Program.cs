@@ -1,6 +1,8 @@
+using Geography.Contracts;
 using Geography.Data;
 using Geography.Data.Data;
 using Geography.Data.Models;
+using Geography.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +29,9 @@ namespace Geography
                 options.Password.RequireUppercase = false;
             })
                 .AddEntityFrameworkStores<GeographyDbContext>();
-            builder.Services.AddControllersWithViews(); 
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddTransient<INatureService, NatureService>();
 
             var app = builder.Build();
 

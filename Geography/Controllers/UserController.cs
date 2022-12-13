@@ -32,17 +32,17 @@ namespace Geography.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddBalance(decimal balance)
+        public IActionResult AddBalance(UserViewModel userModel)
         {
+            if (!ModelState.IsValid)
+            {
+                userModel.Balance = 0;
+                return View(userModel);
+            }
             var name = this.User.Identity.Name;
             var user = this.context.Users.First(x => x.UserName == name);
 
-            if (balance <= 0)
-            {
-                return BadRequest("Balance must be greater than 0");
-            }
-
-            user.Balance = balance;
+            user.Balance = (decimal)userModel.Balance;
             context.SaveChanges();
 
             return RedirectToAction(nameof(AddBalance));

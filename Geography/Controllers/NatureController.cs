@@ -18,7 +18,7 @@ namespace Geography.Controllers
             this.service = service;
         }
 
-        public async Task<IActionResult> All()
+        public IActionResult All()
         {
             var objects = this.service.All();
 

@@ -1,4 +1,5 @@
-﻿using Geography.Data.Data;
+﻿using Geography.Contracts;
+using Geography.Data.Data;
 using Geography.Data.Data.Models;
 using Geography.Models.Type;
 using Microsoft.AspNetCore.Authorization;
@@ -8,18 +9,15 @@ namespace Geography.Controllers
 {
     public class TypeController : Controller
     {
-        private readonly GeographyDbContext context;
-        public TypeController(GeographyDbContext context)
+        private readonly ITypeService service;
+        public TypeController(ITypeService service)
         {
-            this.context = context;
+            this.service = service;
         }
 
         public IActionResult All()
         {
-            var types = this.context.NatureTypes.Select(x => new TypeViewModel
-            {
-                Type = x.Type,
-            }).ToList();
+            var types = this.service.AllTypes();
 
             return View(types);
         }
@@ -38,24 +36,7 @@ namespace Geography.Controllers
                 return View(typeModel);
             }
 
-            var isExistType = this.context.NatureTypes.FirstOrDefault(x => x.Type == typeModel.Type);
-
-            if (isExistType != null)
-            {
-                return View(typeModel);
-            }
-
-            var name = this.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == name);
-
-            var type = new NatureType()
-            {
-                Type = typeModel.Type,
-                UserId = user.Id,
-            };
-
-            this.context.Add(type);
-            this.context.SaveChanges();
+            service.AddType(typeModel);
 
             return RedirectToAction(nameof(Add));
         }

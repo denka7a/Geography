@@ -23,7 +23,7 @@
 
 <h1 class="bg">Тук можете да пишете коментари за сайта:</h1>
 
-@foreach (var message in ViewData["messages"] as List<Message>)
+@foreach (var message in ViewData["messages"] as List<MessageViewModel>)
 {
     <h4>@message.Writer</h4>
     <p>@message.Text</p>

@@ -1,4 +1,5 @@
-﻿using Geography.Data.Data;
+﻿using Geography.Contracts;
+using Geography.Data.Data;
 using Geography.Data.Data.Models;
 using Geography.Models.Message;
 using Microsoft.AspNetCore.Mvc;
@@ -7,16 +8,15 @@ namespace Geography.Controllers
 {
     public class InformationController : Controller
     {
-        private readonly GeographyDbContext context;
-
-        public InformationController(GeographyDbContext context)
+        private readonly IInfoService service;
+        public InformationController(IInfoService service)
         {
-            this.context = context;
+            this.service = service;
         }
 
         public IActionResult Info()
         {
-            var messages = context.Message.ToList();
+            var messages = service.Messages();
             ViewData["messages"] = messages;
 
             return View();
@@ -29,19 +29,7 @@ namespace Geography.Controllers
                 return View(messageModel);
             }
 
-            var name = this.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == name);
-
-            var message = new Message()
-            {
-                Id = messageModel.Id,
-                Writer = messageModel.Writer,
-                Text = messageModel.Text,
-                geographyUserId = user.Id
-            };
-
-            context.Message.Add(message);
-            context.SaveChanges();
+            service.AddMessage(messageModel);
 
             return RedirectToAction(nameof(Info));
         }

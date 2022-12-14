@@ -1,4 +1,5 @@
-﻿using Geography.Data.Data;
+﻿using Geography.Contracts;
+using Geography.Data.Data;
 using Geography.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,24 +9,18 @@ namespace Geography.Controllers
 {
     public class UserController : Controller
     {
-        private readonly GeographyDbContext context;
+        private readonly IUserService service;
 
-        public UserController(GeographyDbContext context)
+        public UserController(IUserService service)
         {
-            this.context = context;
+            this.service = service;
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult AddBalance()
         {
-            var name = this.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == name);
-
-            var userModel = new UserViewModel()
-            {
-                Balance = user.Balance,
-            };
+            var userModel = service.UserBalance();
 
             return View(userModel);
         }
@@ -34,16 +29,17 @@ namespace Geography.Controllers
         [HttpPost]
         public IActionResult AddBalance(UserViewModel userModel)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || userModel.Balance < 0)
             {
                 userModel.Balance = 0;
                 return View(userModel);
             }
-            var name = this.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == name);
 
-            user.Balance = (decimal)userModel.Balance;
-            context.SaveChanges();
+            if (!service.CorrectBalance(userModel.Balance))
+            {
+                return RedirectToAction(nameof(AddBalance));
+            }
+            service.AddBalnce(userModel);
 
             return RedirectToAction(nameof(AddBalance));
         }

@@ -35,6 +35,8 @@ namespace Geography
             builder.Services.AddTransient<INatureService, NatureService>();
             builder.Services.AddTransient<IShopService, ShopService>();
             builder.Services.AddTransient<ITypeService, TypeService>();
+            builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IInfoService, InfoService>();
 
             var app = builder.Build();
 

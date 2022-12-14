@@ -30,8 +30,10 @@ namespace Geography
             })
                 .AddEntityFrameworkStores<GeographyDbContext>();
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddTransient<INatureService, NatureService>();
+            builder.Services.AddTransient<IShopService, ShopService>();
 
             var app = builder.Build();
 

@@ -1,29 +1,25 @@
-﻿using Geography.Data.Data;
+﻿using Geography.Contracts;
+using Geography.Data.Data;
 using Geography.Data.Models;
 using Geography.Models.Shop;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Geography.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly GeographyDbContext context;
+        private readonly IShopService service;
 
-        public ShopController(GeographyDbContext context)
+        public ShopController(IShopService service)
         {
-            this.context = context;
+            this.service = service;
         }
 
         public IActionResult AllSouvenirs()
         {
-            var souvenirs = context.Souvenirs.Select(x => new SouvenirViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                URL = x.URL,
-                Price = x.Price
-            }).ToList();
+            var souvenirs = this.service.AllSouvenirs();
 
             return View(souvenirs);
         }
@@ -38,56 +34,25 @@ namespace Geography.Controllers
         [HttpPost]
         public IActionResult AddSouvenir(SouvenirViewModel model)
         {
-            var name = this.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == name);
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var souvenir = new Souvenir()
-            {
-                Name = model.Name,
-                URL = model.URL,
-                Price = model.Price,
-                UserId = user.Id
-            };
-
-            this.context.Souvenirs.Add(souvenir);
-            this.context.SaveChanges();
-
+            this.service.AddSouvenir(model);
             return RedirectToAction(nameof(AllSouvenirs));
         }
 
         [Authorize]
         public IActionResult Buy(int id)
         {
-            var souvenir = context.Souvenirs.Find(id);
-            var souvenirPrice = souvenir.Price;
+            bool isMoneyEnought = service.BuySouvenir(id);
 
-            if (souvenir == null)
+            if (!isMoneyEnought)
             {
-                return BadRequest("Not Found");
+                return BadRequest("Not enought money");
             }
-            var name = this.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == name);
-
-            if (souvenir.Price > user.Balance)
-            {
-                return BadRequest("No enought money");
-            }
-
-            var userSouvenir = new UserSouvenir
-            {
-                UserId = user.Id,
-                SouvenirId = souvenir.Id
-            };
-
-            user.UserSouvenirs.Add(userSouvenir);
-
-            user.Balance -= souvenirPrice;
-            context.SaveChanges();
+            
             return RedirectToAction(nameof(AllSouvenirs));
         }
     }

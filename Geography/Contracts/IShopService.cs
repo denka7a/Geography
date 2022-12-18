@@ -4,8 +4,8 @@ namespace Geography.Contracts
 {
     public interface IShopService
     {
-        ICollection<SouvenirViewModel> AllSouvenirs();
-        void AddSouvenir(SouvenirViewModel souvenir);
-        bool BuySouvenir(int id);
+        Task<ICollection<SouvenirViewModel>> AllSouvenirs();
+        Task AddSouvenir(SouvenirViewModel souvenir);
+        Task<bool> BuySouvenir(int id);
     }
 }

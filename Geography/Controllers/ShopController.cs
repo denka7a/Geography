@@ -17,36 +17,36 @@ namespace Geography.Controllers
             this.service = service;
         }
         [Authorize]
-        public IActionResult AllSouvenirs()
+        public async Task<IActionResult> AllSouvenirs()
         {
-            var souvenirs = this.service.AllSouvenirs();
+            var souvenirs = await this.service.AllSouvenirs();
 
             return View(souvenirs);
         }
 
         [Authorize]
-        public IActionResult AddSouvenir()
+        public async Task<IActionResult> AddSouvenir()
         {
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddSouvenir(SouvenirViewModel model)
+        public async Task<IActionResult> AddSouvenir(SouvenirViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            this.service.AddSouvenir(model);
+            await this.service.AddSouvenir(model);
             return RedirectToAction(nameof(AllSouvenirs));
         }
 
         [Authorize]
-        public IActionResult Buy(int id)
+        public async Task<IActionResult> Buy(int id)
         {
-            bool isMoneyEnought = service.BuySouvenir(id);
+            bool isMoneyEnought = await service.BuySouvenir(id);
 
             if (!isMoneyEnought)
             {

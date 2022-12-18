@@ -2,6 +2,8 @@
 using Geography.Data.Data;
 using Geography.Data.Models;
 using Geography.Models.Shop;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace Geography.Services
 {
@@ -16,10 +18,10 @@ namespace Geography.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public void AddSouvenir(SouvenirViewModel souvenir)
+        public async Task AddSouvenir(SouvenirViewModel souvenir)
         {
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == userName);
+            var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
 
             var currentSouvenir = new Souvenir()
             {
@@ -29,35 +31,36 @@ namespace Geography.Services
                 UserId = user.Id
             };
 
-            this.context.Souvenirs.Add(currentSouvenir);
-            this.context.SaveChanges();
+            await this.context.Souvenirs.AddAsync(currentSouvenir);
+            await this.context.SaveChangesAsync();
         }
 
-        public ICollection<SouvenirViewModel> AllSouvenirs()
+        public async Task<ICollection<SouvenirViewModel>> AllSouvenirs()
         {
-            var souvenirs = context.Souvenirs.Select(x => new SouvenirViewModel
+            var souvenirs = await context.Souvenirs.Select(x => new SouvenirViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 URL = x.URL,
                 Price = x.Price
-            }).ToList();
+            }).ToListAsync();
 
             return souvenirs;
         }
 
-        public bool BuySouvenir(int id)
+        public async Task<bool> BuySouvenir(int id)
         {
-            var souvenir = context.Souvenirs.FirstOrDefault(x => x.Id == id);
-            var souvenirPrice = souvenir.Price;
+            var souvenir = await context.Souvenirs.FirstOrDefaultAsync(x => x.Id == id);
 
             if (souvenir == null)
             {
                 return false;
             }
 
+            var souvenirPrice = souvenir.Price;
+
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == userName);
+            var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
 
             if (souvenir.Price > user.Balance)
             {
@@ -70,10 +73,10 @@ namespace Geography.Services
                 SouvenirId = souvenir.Id,
             };
 
-            context.UserSouvenirs.Add(userSouvenir);
+            await context.UserSouvenirs.AddAsync(userSouvenir);
             user.Balance -= souvenirPrice;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return true;
         }
     }

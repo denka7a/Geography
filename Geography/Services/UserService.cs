@@ -2,6 +2,7 @@
 using Geography.Data.Data;
 using Geography.Models.User;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Geography.Services
 {
@@ -16,17 +17,17 @@ namespace Geography.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public bool AddBalnce(UserViewModel userModel)
+        public async Task<bool> AddBalnce(UserViewModel userModel)
         {
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == userName);
+            var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
 
             user.Balance = userModel.Balance;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return true;
         }
 
-        public bool CorrectBalance(decimal balance)
+        public async Task<bool> CorrectBalance(decimal balance)
         {
             if (balance > decimal.MaxValue)
             {
@@ -39,10 +40,10 @@ namespace Geography.Services
             return true;
         }
 
-        public UserViewModel UserBalance()
+        public async Task<UserViewModel> UserBalance()
         {
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == userName);
+            var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
 
             var userModel = new UserViewModel()
             {

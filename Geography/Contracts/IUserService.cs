@@ -4,8 +4,8 @@ namespace Geography.Contracts
 {
     public interface IUserService
     {
-        UserViewModel UserBalance();
-        bool AddBalnce(UserViewModel userModel);
-        bool CorrectBalance(decimal balance);
+        Task<UserViewModel> UserBalance();
+        Task<bool> AddBalnce(UserViewModel userModel);
+        Task<bool> CorrectBalance(decimal balance);
     }
 }

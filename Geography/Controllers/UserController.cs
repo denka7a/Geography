@@ -18,16 +18,16 @@ namespace Geography.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddBalance()
+        public async Task<IActionResult> AddBalance()
         {
-            var userModel = service.UserBalance();
+            var userModel = await service.UserBalance();
 
             return View(userModel);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddBalance(UserViewModel userModel)
+        public async Task<IActionResult> AddBalance(UserViewModel userModel)
         {
             if (!ModelState.IsValid || userModel.Balance < 0)
             {
@@ -35,11 +35,12 @@ namespace Geography.Controllers
                 return View(userModel);
             }
 
-            if (!service.CorrectBalance(userModel.Balance))
+            var userBalance = await service.CorrectBalance(userModel.Balance);
+            if (!userBalance)
             {
                 return RedirectToAction(nameof(AddBalance));
             }
-            service.AddBalnce(userModel);
+            await service.AddBalnce(userModel);
 
             return RedirectToAction(nameof(AddBalance));
         }

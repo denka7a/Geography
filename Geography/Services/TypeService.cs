@@ -29,7 +29,7 @@ namespace Geography.Services
             }
 
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == userName);
+            var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
 
             var type = new NatureType()
             {
@@ -37,8 +37,8 @@ namespace Geography.Services
                 UserId = user.Id,
             };
 
-            this.context.Add(type);
-            this.context.SaveChanges();
+            await this.context.AddAsync(type);
+            await this.context.SaveChangesAsync();
         }
 
         public async Task<ICollection<TypeViewModel>> AllTypes()

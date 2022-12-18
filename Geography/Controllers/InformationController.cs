@@ -12,15 +12,15 @@ namespace Geography.Controllers
             this.service = service;
         }
 
-        public IActionResult Info()
+        public async Task<IActionResult> Info()
         {
-            var messages = service.Messages();
+            var messages = await service.Messages();
             ViewData["messages"] = messages;
 
             return View();
         }
         [HttpPost]
-        public IActionResult Info(MessageViewModel messageModel)
+        public async Task<IActionResult> Info(MessageViewModel messageModel)
         {
             if (!ModelState.IsValid)
             {
@@ -29,7 +29,7 @@ namespace Geography.Controllers
                 return View(messageModel);
             }
 
-            service.AddMessage(messageModel);
+            await service.AddMessage(messageModel);
 
             return RedirectToAction(nameof(Info));
         }

@@ -5,12 +5,12 @@ namespace Geography.Contracts
 {
     public interface INatureService
     {
-        ICollection<NatureViewModel> All();
-        void Add(NatureViewModel model);
-        bool Edit(NatureViewModel model);
-        NatureViewModel natureById(int id);
-        TypeViewModel typeByNature(string type);
-        void Delete(int id);
+        Task<ICollection<NatureViewModel>> All();
+        Task Add(NatureViewModel model);
+        Task<bool> Edit(NatureViewModel model);
+        Task<NatureViewModel> natureById(int id);
+        Task<TypeViewModel> typeByNature(string type);
+        Task Delete(int id);
 
     }
 }

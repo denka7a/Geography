@@ -1,9 +1,7 @@
 using Geography.Data.Data;
 using Geography.Data.Data.Models;
 using Geography.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Geography.Tests
 {

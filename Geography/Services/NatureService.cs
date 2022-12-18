@@ -7,6 +7,7 @@ using Microsoft.VisualBasic;
 using System.Xml.Linq;
 using System;
 using Geography.Models.Type;
+using Microsoft.EntityFrameworkCore;
 
 namespace Geography.Services
 {
@@ -18,23 +19,24 @@ namespace Geography.Services
             this.contex = contex;
         }
 
-        public ICollection<NatureViewModel> All()
+        public async Task<ICollection<NatureViewModel>> All()
         {
-            var objects = this.contex.NatureObjects.Select(x => new NatureViewModel
+            var objects = await this.contex.NatureObjects.Select(x => new NatureViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 NatureType = x.NatureType.Type,
                 URL = x.URL,
                 Information = x.Information
-            }).ToList();
+            }).ToListAsync();
 
             return objects;
         }
 
-        public void Add(NatureViewModel natureModel)
+        public async Task Add(NatureViewModel natureModel)
         {
-            var natureType = this.contex.NatureTypes.FirstOrDefault(x => x.Type.ToLower() == natureModel.NatureType.ToLower());
+            var natureType = await this.contex.NatureTypes
+                .FirstOrDefaultAsync(x => x.Type.ToLower() == natureModel.NatureType.ToLower());
 
             if (natureType == null)
             {
@@ -49,20 +51,20 @@ namespace Geography.Services
                 NatureType = natureType
             };
 
-            this.contex.Add(natureObject);
-            this.contex.SaveChanges();
+            await this.contex.AddAsync(natureObject);
+            await this.contex.SaveChangesAsync();
         }
 
-        public bool Edit(NatureViewModel model)
+        public async Task<bool> Edit(NatureViewModel model)
         {
-            var natureObj = contex.NatureObjects.FirstOrDefault(x => x.Id == model.Id);
+            var natureObj = await contex.NatureObjects.FirstOrDefaultAsync(x => x.Id == model.Id);
 
             if (natureObj == null)
             {
                 return false; 
             }
 
-            var natureType = contex.NatureTypes.FirstOrDefault(x => x.Type == model.NatureType);
+            var natureType = await contex.NatureTypes.FirstOrDefaultAsync(x => x.Type == model.NatureType);
 
             if (natureType == null)
             {
@@ -75,12 +77,12 @@ namespace Geography.Services
             natureObj.Information = model.Information;
 
             this.contex.Update(natureObj);
-            this.contex.SaveChanges();
+            await this.contex.SaveChangesAsync();
             return true;
         }
 
-        public NatureViewModel natureById(int id)
-            => contex.NatureObjects
+        public async Task<NatureViewModel> natureById(int id)
+            => await contex.NatureObjects
             .Where(i => i.Id == id)
             .Select(n => new NatureViewModel
             {
@@ -89,22 +91,22 @@ namespace Geography.Services
                 URL = n.URL,
                 Information = n.Information,
                 NatureType = n.NatureType.Type
-            }).FirstOrDefault();
+            }).FirstOrDefaultAsync();
 
-        public TypeViewModel typeByNature(string type) =>
-            contex.NatureTypes
+        public async Task<TypeViewModel> typeByNature(string type) =>
+             await contex.NatureTypes
             .Where(t => t.Type == type)
             .Select(nt => new TypeViewModel
             {
                 Type = nt.Type,
                 User = nt.User,
-            }).FirstOrDefault();
+            }).FirstOrDefaultAsync();
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var nature = contex.NatureObjects.Find(id);
+            var nature = await contex.NatureObjects.FindAsync(id);
             contex.NatureObjects.Remove(nature);
-            contex.SaveChanges();
+            await contex.SaveChangesAsync();
         }
     }
 }

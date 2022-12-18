@@ -2,6 +2,7 @@
 using Geography.Data.Data;
 using Geography.Data.Data.Models;
 using Geography.Models.Message;
+using Microsoft.EntityFrameworkCore;
 
 namespace Geography.Services
 {
@@ -16,10 +17,10 @@ namespace Geography.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public void AddMessage(MessageViewModel messageModel)
+        public async Task AddMessage(MessageViewModel messageModel)
         {
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
-            var user = this.context.Users.First(x => x.UserName == userName);
+            var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
 
             var message = new Message()
             {
@@ -29,18 +30,18 @@ namespace Geography.Services
                 geographyUserId = user.Id
             };
 
-            context.Message.Add(message);
-            context.SaveChanges();
+            await context.Message.AddAsync(message);
+            await context.SaveChangesAsync();
         }
 
-        public ICollection<MessageViewModel> Messages()
+        public async Task<ICollection<MessageViewModel>> Messages()
         {
-            var messages = context.Message.Select(x => new MessageViewModel
+            var messages = await context.Message.Select(x => new MessageViewModel
             {
                 Id = x.Id,
                 Writer = x.Writer,
                 Text = x.Text
-            }).ToList();
+            }).ToListAsync();
 
             return messages;
         }

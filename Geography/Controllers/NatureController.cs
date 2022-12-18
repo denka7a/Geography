@@ -18,42 +18,42 @@ namespace Geography.Controllers
             this.service = service;
         }
         [Authorize]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var objects = this.service.All();
+            var objects = await this.service.All();
 
             return View(objects);
         }
         [Authorize]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             return View();
         }
         [Authorize]
         [HttpPost]
-        public IActionResult Add(NatureViewModel natureModel)
+        public async Task<IActionResult> Add(NatureViewModel natureModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(natureModel); 
             }
 
-            service.Add(natureModel);
+            await service.Add(natureModel);
 
             return RedirectToAction(nameof(All));
         }
 
         [Authorize]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var natureObj = service.natureById(id);
+            var natureObj = await service.natureById(id);
             
             if (natureObj == null)
             {
                 return NotFound();
             }
 
-            var natureType = service.typeByNature(natureObj.NatureType);
+            var natureType = await service.typeByNature(natureObj.NatureType);
 
             return View( new NatureViewModel
             {
@@ -66,15 +66,15 @@ namespace Geography.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(NatureViewModel natureModel)
+        public async Task<IActionResult> Edit(NatureViewModel natureModel)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Edit));
             }
 
-            var natureObject = service.natureById(natureModel.Id);
-            var natureTypeExist = service.typeByNature(natureModel.NatureType);
+            var natureObject = await service.natureById(natureModel.Id);
+            var natureTypeExist = await service.typeByNature(natureModel.NatureType);
 
             if (natureTypeExist == null)
             {
@@ -86,19 +86,19 @@ namespace Geography.Controllers
                 return RedirectToAction(nameof(Edit));
             }
              
-            var editedNature = service.Edit(natureModel);
+            var editedNature = await service.Edit(natureModel);
             return RedirectToAction(nameof(All));
         }
 
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (service.natureById(id) == null)
+            if (await service.natureById(id) == null)
             {
                 return NotFound();
             }
 
-            service.Delete(id);
+            await service.Delete(id);
 
             return RedirectToAction(nameof(All));
         }

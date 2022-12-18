@@ -1,0 +1,13 @@
+﻿@model List<NatureViewModel>
+
+@foreach (var obj in Model)
+{
+    <h1>@obj.NatureType</h1>
+    <h2>@obj.Name</h2>
+    <img src="@obj.URL" style="overflow: hidden; position: relative; width:300px; height:300px;" />
+    <h3>@obj.Information</h3>
+    <td>
+        <a asp-controller="Nature" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-warning">Edit</a>
+        <a asp-controller="Nature" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger">Delete</a>
+    </td>
+}

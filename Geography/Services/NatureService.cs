@@ -14,23 +14,48 @@ namespace Geography.Services
     public class NatureService : INatureService
     {
         private readonly GeographyDbContext contex;
+
         public NatureService(GeographyDbContext contex)
         {
             this.contex = contex;
         }
 
-        public async Task<ICollection<NatureViewModel>> All()
+        public async Task<NatureSearchViewModel> All(string searchTerm)
         {
-            var objects = await this.contex.NatureObjects.Select(x => new NatureViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                NatureType = x.NatureType.Type,
-                URL = x.URL,
-                Information = x.Information
-            }).ToListAsync();
 
-            return objects;
+            var objects = new List<NatureViewModel>();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                objects = await this.contex.NatureObjects
+                    .Select(x => new NatureViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        NatureType = x.NatureType.Type,
+                        URL = x.URL,
+                        Information = x.Information
+                    })
+                    .Where(x => x.NatureType.ToLower().Contains(searchTerm.ToLower()))
+                    .ToListAsync();
+            }
+            else
+            {
+                objects = await this.contex.NatureObjects.Select(x => new NatureViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    NatureType = x.NatureType.Type,
+                    URL = x.URL,
+                    Information = x.Information
+                }).ToListAsync();
+            }
+
+            return new NatureSearchViewModel
+            {
+                NatureObjects = objects,
+                SearchTerm = searchTerm
+            };
         }
 
         public async Task Add(NatureViewModel natureModel)
@@ -40,7 +65,7 @@ namespace Geography.Services
 
             if (natureType == null)
             {
-                return; 
+                return;
             }
 
             var natureObject = new NatureObject()
@@ -61,7 +86,7 @@ namespace Geography.Services
 
             if (natureObj == null)
             {
-                return false; 
+                return false;
             }
 
             var natureType = await contex.NatureTypes.FirstOrDefaultAsync(x => x.Type == model.NatureType);
@@ -107,6 +132,18 @@ namespace Geography.Services
             var nature = await contex.NatureObjects.FindAsync(id);
             contex.NatureObjects.Remove(nature);
             await contex.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<NatureViewModel>> SearchByType(string type)
+        {
+            var natureObjectsByType = await contex.NatureObjects.Select(x => new NatureViewModel
+            {
+                Name = x.Name,
+                URL = x.URL,
+                Information = x.Information,
+                NatureType = x.NatureType.Type
+            }).Where(x => x.NatureType == type).ToListAsync();
+            return natureObjectsByType;
         }
     }
 }

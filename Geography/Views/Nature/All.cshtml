@@ -1,9 +1,20 @@
-﻿@model List<NatureViewModel>
+﻿@model NatureSearchViewModel
 
 <div style="text-align:center;"><img src="https://good-nature-blog-uploads.s3.amazonaws.com/uploads/2022/01/good-nature-homepage-hero_2-scaled.jpg" style="overflow: hidden; position: relative; width:1000px; height:400px;" /></div>
 <h2>All natures:  </h2>
 
-@foreach (var obj in Model)
+<div class="row">
+    <form method="get">
+        <div class="form-group col-md-5">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="Nature object" />
+            </div>
+            <input type="submit" class="btn btn-primary" value="Search" />
+        </div>
+    </form>
+</div>
+@foreach (var obj in Model.NatureObjects)
 {
     <h1>@obj.NatureType</h1>
     <h2>@obj.Name</h2>

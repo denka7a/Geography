@@ -45,7 +45,7 @@ namespace Geography.Tests
                 dbContext.SaveChanges();
 
                 var natureService = new NatureService(dbContext);
-                var result = natureService.All();
+                var result = natureService.All("Mountain");
 
                 Assert.True(result != null, "All method works");
             }

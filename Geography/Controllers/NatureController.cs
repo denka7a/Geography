@@ -18,9 +18,9 @@ namespace Geography.Controllers
             this.service = service;
         }
         [Authorize]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(string searchTerm)
         {
-            var objects = await this.service.All();
+            var objects = await this.service.All(searchTerm);
 
             return View(objects);
         }

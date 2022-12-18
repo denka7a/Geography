@@ -4,7 +4,7 @@ namespace Geography.Contracts
 {
     public interface ITypeService
     {
-        ICollection<TypeViewModel> AllTypes();
-        void AddType(TypeViewModel typeViewModel);
+        Task<ICollection<TypeViewModel>> AllTypes();
+        Task AddType(TypeViewModel typeViewModel);
     }
 }

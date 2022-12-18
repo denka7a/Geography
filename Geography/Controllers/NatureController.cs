@@ -17,7 +17,7 @@ namespace Geography.Controllers
         {
             this.service = service;
         }
-
+        [Authorize]
         public IActionResult All()
         {
             var objects = this.service.All();

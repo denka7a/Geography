@@ -3,6 +3,7 @@ using Geography.Data.Data;
 using Geography.Data.Data.Models;
 using Geography.Models.Type;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Geography.Services
@@ -15,12 +16,12 @@ namespace Geography.Services
         public TypeService(GeographyDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
-            this.httpContextAccessor = httpContextAccessor;
+          this.httpContextAccessor = httpContextAccessor;
         }
 
-        public void AddType(TypeViewModel typeViewModel)
+        public async Task AddType(TypeViewModel typeViewModel)
         {
-            var isExistType = this.context.NatureTypes.FirstOrDefault(x => x.Type == typeViewModel.Type);
+            var isExistType = await this.context.NatureTypes.FirstOrDefaultAsync(x => x.Type == typeViewModel.Type);
 
             if (isExistType != null)
             {
@@ -40,12 +41,12 @@ namespace Geography.Services
             this.context.SaveChanges();
         }
 
-        public ICollection<TypeViewModel> AllTypes()
+        public async Task<ICollection<TypeViewModel>> AllTypes()
         {
-            var types = this.context.NatureTypes.Select(x => new TypeViewModel
+            var types =  await this.context.NatureTypes.Select(x => new TypeViewModel
             {
                 Type = x.Type,
-            }).ToList();
+            }).ToListAsync();
 
             return types;
         }

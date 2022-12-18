@@ -1,6 +1,4 @@
 ﻿using Geography.Contracts;
-using Geography.Data.Data;
-using Geography.Data.Data.Models;
 using Geography.Models.Message;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +24,8 @@ namespace Geography.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var messages = service.Messages();
+                ViewData["messages"] = messages;
                 return View(messageModel);
             }
 

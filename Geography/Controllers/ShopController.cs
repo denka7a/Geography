@@ -16,7 +16,7 @@ namespace Geography.Controllers
         {
             this.service = service;
         }
-
+        [Authorize]
         public IActionResult AllSouvenirs()
         {
             var souvenirs = this.service.AllSouvenirs();

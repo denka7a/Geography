@@ -1,6 +1,4 @@
 ﻿using Geography.Contracts;
-using Geography.Data.Data;
-using Geography.Data.Data.Models;
 using Geography.Models.Type;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,29 +12,29 @@ namespace Geography.Controllers
         {
             this.service = service;
         }
-
-        public IActionResult All()
+        [Authorize]
+        public async Task<IActionResult> All()
         {
-            var types = this.service.AllTypes();
+            var types = await this.service.AllTypes();
 
             return View(types);
         }
 
         [Authorize]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             return View();
         }
         [HttpPost]
         [Authorize]
-        public IActionResult Add(TypeViewModel typeModel)
+        public async Task<IActionResult> Add(TypeViewModel typeModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(typeModel);
             }
 
-            service.AddType(typeModel);
+            await service.AddType(typeModel);
 
             return RedirectToAction(nameof(Add));
         }

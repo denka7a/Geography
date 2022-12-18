@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geography", "Geography\Geography.csproj", "{FDD48A69-E1E4-4CF8-B13F-7951040A60D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geography.Data", "Geography.Data\Geography.Data.csproj", "{D1F104A5-2EFA-47A3-9AA4-482C6D382ECE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geography.Data", "Geography.Data\Geography.Data.csproj", "{D1F104A5-2EFA-47A3-9AA4-482C6D382ECE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geography.Tests", "Geography.Tests\Geography.Tests.csproj", "{3B5DC6A4-B860-4001-B09A-F86B9DC32FB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D1F104A5-2EFA-47A3-9AA4-482C6D382ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1F104A5-2EFA-47A3-9AA4-482C6D382ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1F104A5-2EFA-47A3-9AA4-482C6D382ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B5DC6A4-B860-4001-B09A-F86B9DC32FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5DC6A4-B860-4001-B09A-F86B9DC32FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B5DC6A4-B860-4001-B09A-F86B9DC32FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B5DC6A4-B860-4001-B09A-F86B9DC32FB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

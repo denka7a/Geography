@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
 namespace Geography.Models.User
 {
     public class UserViewModel
     {
+        [Range(0d, 10000d)]
         public decimal Balance { get; set; }
     }
 }

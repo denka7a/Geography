@@ -21,7 +21,7 @@ namespace Geography.Services
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
             var user = this.context.Users.First(x => x.UserName == userName);
 
-            user.Balance = (decimal)userModel.Balance;
+            user.Balance = userModel.Balance;
             context.SaveChanges();
             return true;
         }

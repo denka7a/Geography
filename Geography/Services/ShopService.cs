@@ -79,5 +79,21 @@ namespace Geography.Services
             await context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<ICollection<SouvenirViewModel>> MySouvenirs()
+        {
+            string userName = httpContextAccessor.HttpContext.User.Identity.Name;
+            var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
+
+            var userSouvenirs = context.UserSouvenirs.Where(x => x.UserId == user.Id);
+            var souvenirs = userSouvenirs.Select(x => new SouvenirViewModel
+            {
+                Name = x.Souvenir.Name,
+                URL = x.Souvenir.URL,
+                Price = x.Souvenir.Price
+            }).ToList();
+
+            return souvenirs;
+        }
     }
 }

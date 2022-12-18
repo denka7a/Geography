@@ -1,9 +1,6 @@
 ﻿using Geography.Contracts;
-using Geography.Data.Data;
-using Geography.Data.Models;
 using Geography.Models.Shop;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Geography.Controllers
@@ -54,6 +51,13 @@ namespace Geography.Controllers
             }
             
             return RedirectToAction(nameof(AllSouvenirs));
+        }
+
+        public async Task<IActionResult> MySouvenirs()
+        {
+            var souvenirs = await service.MySouvenirs();
+
+            return View(souvenirs);
         }
     }
 }

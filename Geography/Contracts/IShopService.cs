@@ -1,4 +1,5 @@
-﻿using Geography.Models.Shop;
+﻿using Geography.Data.Models;
+using Geography.Models.Shop;
 
 namespace Geography.Contracts
 {
@@ -7,5 +8,6 @@ namespace Geography.Contracts
         Task<ICollection<SouvenirViewModel>> AllSouvenirs();
         Task AddSouvenir(SouvenirViewModel souvenir);
         Task<bool> BuySouvenir(int id);
+        Task<ICollection<SouvenirViewModel>> MySouvenirs();
     }
 }

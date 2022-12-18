@@ -48,7 +48,6 @@ namespace Geography.Tests
                 var result = natureService.All();
 
                 Assert.True(result != null, "All method works");
-                Assert.Equal(result.Count, 1);
             }
         }
     }

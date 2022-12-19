@@ -22,6 +22,8 @@ namespace Geography.Data.Data
         public DbSet<NatureType> NatureTypes { get; set; }
         public DbSet<NatureObject> NatureObjects { get; set; }
         public DbSet<Message> Message { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

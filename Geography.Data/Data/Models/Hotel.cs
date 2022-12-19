@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 
 namespace Geography.Data.Data.Models
 {
-    public class NatureObject
+    public class Hotel
     {
         [Key]
         public int Id { get; set; }
         [Required]
         [MaxLength(40)]
         public string Name { get; set; }
-        [MaxLength(300)]
+        public int Stars { get; set; }
         [Required]
-        public string Information { get; set; }
         [Url]
-        [Required]
         public string URL { get; set; }
-        public int NatureTypeId { get; set; }
-        public NatureType NatureType { get; set; }
-        public ICollection<Hotel> Hotels { get; set; }
+        public bool IsRemove { get; set; }
+        [Required]
+        [MinLength(3)]
+        public string NatureName { get; set; }
+        public int NatureId { get; set; }
+        public NatureObject Nature { get; set; }
     }
 }

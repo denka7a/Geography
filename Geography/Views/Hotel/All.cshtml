@@ -1,0 +1,18 @@
+﻿@model List<HotelViewModel>
+
+
+<div class="row">
+    @foreach (var hotel in Model)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="@hotel.URL" alt="@hotel.Name @hotel.Stars">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-center">@hotel.Name</h3>
+                    <h5 class="card-title text-center">Stars: @hotel.Stars</h5>
+                    <h5 class="card-title text-center">Map: @hotel.NatureName</h5>
+                </div>
+            </div>
+        </div>
+    }
+</div>

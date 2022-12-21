@@ -4,7 +4,10 @@ using Geography.Data.Data;
 using Geography.Data.Models;
 using Geography.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Geography
 {
@@ -13,14 +16,14 @@ namespace Geography
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<GeographyDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<GeographyUser>(options => 
+            builder.Services.AddDefaultIdentity<GeographyUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -29,7 +32,12 @@ namespace Geography
                 options.Password.RequireUppercase = false;
             })
                 .AddEntityFrameworkStores<GeographyDbContext>();
-            builder.Services.AddControllersWithViews();
+            
+
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddTransient<INatureService, NatureService>();

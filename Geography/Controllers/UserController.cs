@@ -1,7 +1,9 @@
 ﻿using Geography.Contracts;
 using Geography.Data.Data;
+using Geography.Data.Models;
 using Geography.Models.User;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 
@@ -29,6 +31,7 @@ namespace Geography.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBalance(UserViewModel userModel)
         {
+            
             if (!ModelState.IsValid || userModel.Balance < 0)
             {
                 userModel.Balance = 0;

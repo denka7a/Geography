@@ -21,7 +21,6 @@ namespace Geography.Services
         {
             string userName = httpContextAccessor.HttpContext.User.Identity.Name;
             var user = await this.context.Users.FirstAsync(x => x.UserName == userName);
-
             user.Balance = userModel.Balance;
             await context.SaveChangesAsync();
             return true;
@@ -48,6 +47,7 @@ namespace Geography.Services
             var userModel = new UserViewModel()
             {
                 Balance = user.Balance,
+                FullName = user.FullName,
             };
 
             return userModel;

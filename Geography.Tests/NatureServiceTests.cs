@@ -1,24 +1,25 @@
 using Geography.Data.Data;
 using Geography.Data.Data.Models;
+using Geography.Data.Models;
+
 using Geography.Services;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Geography.Tests
 {
     public class NatureServiceTests
     {
         [Fact]
-        public void TestingAll()
+        public void TestingAllWithElements()
         {
             var options = new DbContextOptionsBuilder<GeographyDbContext>()
             .UseInMemoryDatabase(databaseName: "Find_Nature")
             .Options;
 
-
             using (var dbContext = new GeographyDbContext(options)) 
             {
-
-                var user = new Data.Models.GeographyUser()
+                var user = new GeographyUser()
                 {
                     UserName = "Denkata",
                     Email = "dmgdenka7a@abv.bg",
@@ -34,7 +35,7 @@ namespace Geography.Tests
                 dbContext.Users.Add(user);
                 dbContext.NatureTypes.Add(natureType);
 
-                dbContext.NatureObjects.Add(new Data.Data.Models.NatureObject()
+                dbContext.NatureObjects.Add(new NatureObject()
                 {
                     Name = "Old mountain",
                     Information = "some info",
@@ -47,7 +48,7 @@ namespace Geography.Tests
                 var natureService = new NatureService(dbContext);
                 var result = natureService.All("Mountain");
 
-                Assert.True(result != null, "All method works");
+                Assert.True(result != null, "All method works wtih elements");
             }
         }
     }

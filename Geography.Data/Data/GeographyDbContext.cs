@@ -1,10 +1,12 @@
 ﻿using Geography.Data.Data.Models;
 using Geography.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,6 +42,8 @@ namespace Geography.Data.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<UserSouvenir>().HasKey(x => new { x.UserId, x.SouvenirId });
+
+            builder.Entity<IdentityUser>().HasData(new {Id = 1, FullName = "Denislav"});
 
             base.OnModelCreating(builder);
         }

@@ -1,11 +1,13 @@
 ﻿using Geography.Contracts;
 using Geography.Data.Data;
 using Geography.Models.Hotel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Geography.Controllers
 {
+    [Authorize]
     public class HotelController : Controller
     {
         private readonly IHotelService service;

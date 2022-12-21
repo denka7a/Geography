@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Geography.Data.Data.Constants;
 
 namespace Geography.Models.Message
 {
@@ -6,12 +7,12 @@ namespace Geography.Models.Message
     {
         public int Id { get; set; }
         [Required]
-        [MaxLength(40)]
-        [MinLength(3)]
+        [MaxLength(DataConstants.Message.WriterNameMaxLength)]
+        [MinLength(DataConstants.Message.WriterNameMinLength)]
         public string Writer { get; set; }
         [Required]
-        [MaxLength(300)]
-        [MinLength(3)]
+        [MaxLength(DataConstants.Message.MessageMaxLength)]
+        [MinLength(DataConstants.Message.MessageMinLength)]
         public string Text { get; set; }
     }
 }

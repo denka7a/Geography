@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Geography.Data.Data.Constants;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Geography.Data.Data.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(40)]
+        [MaxLength(DataConstants.Hotel.NameMaxLength)]
         public string Name { get; set; }
         public int Stars { get; set; }
         [Required]
@@ -20,7 +21,7 @@ namespace Geography.Data.Data.Models
         public string URL { get; set; }
         public bool IsRemove { get; set; }
         [Required]
-        [MinLength(3)]
+        [MaxLength(DataConstants.Hotel.NatureNameMaxLength)]
         public string NatureName { get; set; }
         public int NatureId { get; set; }
         public NatureObject Nature { get; set; }

@@ -1,4 +1,5 @@
-﻿using Geography.Data.Models;
+﻿using Geography.Data.Data.Constants;
+using Geography.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,10 +14,10 @@ namespace Geography.Data.Data.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(40)]
+        [MaxLength(DataConstants.Message.WriterNameMaxLength)]
         public string Writer { get; set; }
         [Required]
-        [MaxLength(300)]
+        [MaxLength(DataConstants.Message.MessageMaxLength)]
         public string Text { get; set; }
         public string geographyUserId { get; set; }
         public GeographyUser geographyUser { get; set; }

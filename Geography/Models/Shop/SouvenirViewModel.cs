@@ -1,5 +1,6 @@
 ﻿using Geography.Data.Models;
 using System.ComponentModel.DataAnnotations;
+using Geography.Data.Data.Constants;
 
 namespace Geography.Models.Shop
 {
@@ -7,8 +8,8 @@ namespace Geography.Models.Shop
     {
         public int Id { get; set; }
         [Required]
-        [MaxLength(40)]
-        [MinLength(3)]
+        [MaxLength(DataConstants.Souvenir.SouvenirNameMaxLength)]
+        [MinLength(DataConstants.Souvenir.SouvenirNameMinLength)]
         public string Name { get; set; }
         [Url]
         [Required]

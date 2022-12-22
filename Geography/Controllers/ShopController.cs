@@ -47,7 +47,7 @@ namespace Geography.Controllers
 
             if (!isMoneyEnought)
             {
-                return BadRequest("Not enought money");
+                return BadRequest();
             }
             
             return RedirectToAction(nameof(AllSouvenirs));

@@ -19,10 +19,10 @@ namespace Geography.Data.Data.Constants
         public class Hotel
         {
             public const int HotelNameMaxLength = 40;
-            public const int HotelNameMinLength = 40;
+            public const int HotelNameMinLength = 3;
 
-            public const int HotelStarsMaxLength = 40;
-            public const int HotelStarsMinLength = 40;
+            public const int HotelStarsMaxLength = 5;
+            public const int HotelStarsMinLength = 1;
 
             public const int NatureNameMaxLength = 40;
             public const int NatureNameMinLength = 3;

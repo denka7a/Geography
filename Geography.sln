@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geography", "Geography\Geog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geography.Data", "Geography.Data\Geography.Data.csproj", "{D1F104A5-2EFA-47A3-9AA4-482C6D382ECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geography.Tests", "Geography.Tests\Geography.Tests.csproj", "{3B5DC6A4-B860-4001-B09A-F86B9DC32FB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geography.Tests", "Geography.Tests\Geography.Tests.csproj", "{3B5DC6A4-B860-4001-B09A-F86B9DC32FB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0CB3EF3-B7EF-4EC3-A30E-4798213C6CFF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

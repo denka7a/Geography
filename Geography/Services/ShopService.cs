@@ -3,7 +3,6 @@ using Geography.Data.Data;
 using Geography.Data.Models;
 using Geography.Models.Shop;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace Geography.Services
 {
@@ -66,7 +65,7 @@ namespace Geography.Services
             {
                 return false;
             }
-
+            
             var userSouvenir = new UserSouvenir
             {
                 UserId = user.Id,

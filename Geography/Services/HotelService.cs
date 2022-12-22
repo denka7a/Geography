@@ -51,9 +51,60 @@ namespace Geography.Services
                     Stars = x.Stars,
                     NatureName = x.NatureName,
                 })
-            .ToListAsync();
+                .OrderByDescending(x => x.Stars)
+                .ToListAsync();
 
             return hotels;
+        }
+
+        public async Task Remove(int id)
+        {
+            var hotel = await context.Hotels.FindAsync(id);
+            hotel.IsRemove = true;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<HotelViewModel> HotelById(int id) =>
+            await context.Hotels
+            .Where(i => i.Id == id)
+            .Select(h => new HotelViewModel
+            {
+                Id = h.Id,
+                Name = h.Name,
+                Stars = h.Stars,
+                URL = h.URL,
+                IsRemove = h.IsRemove,
+                NatureName = h.NatureName,
+            }).FirstOrDefaultAsync();
+
+        public async Task<ICollection<HotelViewModel>> RemovedHotels()
+        {
+            var hotels = await this.context.Hotels
+            .Where(x => x.IsRemove == true)
+                .Select(x => new HotelViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    URL = x.URL,
+                    Stars = x.Stars,
+                    NatureName = x.NatureName,
+                }).ToListAsync();
+
+            return hotels;
+        }
+
+        public async Task BackHotel(int id)
+        {
+            var hotel = await context.Hotels.FindAsync(id);
+            hotel.IsRemove = false;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<int> HotelsCount()
+        {
+            var hotelsCount = await context.Hotels.CountAsync();
+
+            return hotelsCount;
         }
     }
 }

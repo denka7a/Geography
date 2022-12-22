@@ -1,7 +1,7 @@
-﻿@model HotelAllViewModel
+﻿@model ICollection<HotelViewModel>
 
 <div class="row">
-    @foreach (var hotel in Model.Hotels)
+    @foreach (var hotel in Model)
     {
         <div class="col-md-4">
             <div class="card">
@@ -10,17 +10,10 @@
                     <h3 class="card-title text-center">@hotel.Name</h3>
                     <h5 class="card-title text-center">Stars: @hotel.Stars</h5>
                     <h5 class="card-title text-center">Map: @hotel.NatureName</h5>
-                    <a asp-controller="Hotel" asp-action="Remove" asp-route-id="@hotel.Id" class="btn btn-danger">Remove</a>
+                    <h5 class="card-title text-center">REMOVED</h5>
+                    <a asp-controller="Hotel" asp-action="BackHotel" asp-route-id="@hotel.Id" class="btn btn-danger">Back</a>
                 </div>
             </div>
         </div>
     }
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            @for (var i = 1; i <= Model.Pages; i++)
-            {
-                <li class="page-item"><a class="page-link" href="https://localhost:7207/Hotel/All?currentPage=@i">@i</a></li>
-            }
-        </ul>
-    </nav>
 </div>

@@ -13,7 +13,7 @@ namespace Geography.Data.Data.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(DataConstants.Hotel.NameMaxLength)]
+        [MaxLength(DataConstants.Hotel.HotelNameMaxLength)]
         public string Name { get; set; }
         public int Stars { get; set; }
         [Required]

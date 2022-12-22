@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using static Geography.Constants.DataConstants.User;
+using static Geography.Data.Data.Constants.DataConstants.User;
 namespace Geography.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
